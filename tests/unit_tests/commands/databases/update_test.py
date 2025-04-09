@@ -111,7 +111,9 @@ def test_update_with_catalog(
     When update is called, only `catalog2.schema3` has permissions associated with it,
     so `catalog1.*` and `catalog2.schema4` are added.
     """
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     DatabaseDAO.find_by_id.return_value = database_with_catalog
     DatabaseDAO.update.return_value = database_with_catalog
 
@@ -162,7 +164,9 @@ def test_update_without_catalog(
     When update is called, only `schema2` has permissions associated with it, so `schema1`
     is added.
     """  # noqa: E501
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     DatabaseDAO.find_by_id.return_value = database_without_catalog
     DatabaseDAO.update.return_value = database_without_catalog
 
@@ -207,7 +211,9 @@ def test_rename_with_catalog(
     so `catalog1.*` and `catalog2.schema4` are added. Additionally, the database has
     been renamed from `my_db` to `my_other_db`.
     """
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     original_database = mocker.MagicMock()
     original_database.database_name = "my_db"
     DatabaseDAO.find_by_id.return_value = original_database
@@ -217,7 +223,9 @@ def test_rename_with_catalog(
     dataset = mocker.MagicMock()
     chart = mocker.MagicMock()
     DatabaseDAO.get_datasets.return_value = [dataset]
-    DatasetDAO = mocker.patch("superset.commands.database.update.DatasetDAO")  # noqa: N806
+    DatasetDAO = mocker.patch(
+        "superset.commands.database.update.DatasetDAO"
+    )  # noqa: N806
     DatasetDAO.get_related_objects.return_value = {"charts": [chart]}
 
     find_permission_view_menu = mocker.patch.object(
@@ -279,7 +287,9 @@ def test_rename_without_catalog(
     When update is called, only `schema2` has permissions associated with it, so `schema1`
     is added. Additionally, the database has been renamed from `my_db` to `my_other_db`.
     """  # noqa: E501
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     original_database = mocker.MagicMock()
     original_database.database_name = "my_db"
     DatabaseDAO.find_by_id.return_value = original_database
@@ -320,7 +330,9 @@ def test_update_with_oauth2(
     """
     Test that the database can be updated even if OAuth2 is needed to connect.
     """
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     DatabaseDAO.find_by_id.return_value = database_needs_oauth2
     DatabaseDAO.update.return_value = database_needs_oauth2
 
@@ -350,7 +362,9 @@ def test_update_with_oauth2_changed(
     """
     Test that the database can be updated even if OAuth2 is needed to connect.
     """
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     DatabaseDAO.find_by_id.return_value = database_needs_oauth2
     DatabaseDAO.update.return_value = database_needs_oauth2
 
@@ -390,7 +404,9 @@ def test_remove_oauth_config_purges_tokens(
     """
     Test that removing the OAuth config from a database purges existing tokens.
     """
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     DatabaseDAO.find_by_id.return_value = database_needs_oauth2
     DatabaseDAO.update.return_value = database_needs_oauth2
 
@@ -425,7 +441,9 @@ def test_update_oauth2_removes_masked_encrypted_extra_key(
     """
     Test that the ``masked_encrypted_extra`` key is properly purged from the properties.
     """
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     DatabaseDAO.find_by_id.return_value = database_needs_oauth2
     DatabaseDAO.update.return_value = database_needs_oauth2
 
@@ -474,7 +492,9 @@ def test_update_other_fields_dont_affect_oauth(
     Test that not including ``masked_encrypted_extra`` in the payload does not
     touch the OAuth config.
     """
-    DatabaseDAO = mocker.patch("superset.commands.database.update.DatabaseDAO")  # noqa: N806
+    DatabaseDAO = mocker.patch(
+        "superset.commands.database.update.DatabaseDAO"
+    )  # noqa: N806
     DatabaseDAO.find_by_id.return_value = database_needs_oauth2
     DatabaseDAO.update.return_value = database_needs_oauth2
 
@@ -512,7 +532,6 @@ def test_update_with_catalog_change(mocker: MockerFixture) -> None:
     database_dao.find_by_id.return_value = old_database
     database_dao.update.return_value = new_database
 
-    mocker.patch("superset.commands.database.update.SyncPermissionsCommand")
     mocker.patch.object(
         UpdateDatabaseCommand,
         "validate",
@@ -544,7 +563,6 @@ def test_update_without_catalog_change(mocker: MockerFixture) -> None:
     database_dao.find_by_id.return_value = old_database
     database_dao.update.return_value = new_database
 
-    mocker.patch("superset.commands.database.update.SyncPermissionsCommand")
     mocker.patch.object(
         UpdateDatabaseCommand,
         "validate",
